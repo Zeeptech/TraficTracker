@@ -1,6 +1,7 @@
 import { serve } from "@hono/node-server";
 import { Hono } from "hono";
 import { getAllStops } from "./routes/stops/getAllStops.js";
+import { drizzle } from "drizzle-orm/libsql";
 import "dotenv/config";
 
 const app = new Hono();
