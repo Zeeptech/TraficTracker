@@ -24,6 +24,7 @@ function LoginForm() {
 
       const token = result.token;
       document.cookie = `token=${token}; path=/;`;
+      window.location.reload();
     } catch (error) {
       console.error(error);
     }

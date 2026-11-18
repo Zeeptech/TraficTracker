@@ -11,6 +11,10 @@ export function Dashboard() {
         headers: {
           Authorization: `Bearer ${token.split("=")[1]}`,
         },
+      }).then((response) => {
+        if (response.ok) {
+          window.location.reload();
+        }
       });
     }
   }
