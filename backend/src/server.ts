@@ -1,16 +1,14 @@
 import { serve } from "@hono/node-server";
 import { Hono } from "hono";
-import { getAllStops } from "./routes/stops/getAllStops.js";
-import { drizzle } from "drizzle-orm/libsql";
 import "dotenv/config";
+import { auth } from "./routes/auth/auth.js";
+import { stops } from "./routes/stops/stops.js";
 
-const app = new Hono();
+const app = new Hono().route("/auth", auth).route("/stops", stops);
 
 app.get("/", (c) => {
   return c.text("Hello Hono!");
 });
-
-app.get("/list", getAllStops);
 
 serve(
   {

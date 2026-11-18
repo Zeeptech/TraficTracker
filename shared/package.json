@@ -1,0 +1,9 @@
+{
+  "name": "@trafictracker/shared",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./index.ts",
+    "./*": "./types/*.ts"
+  }
+}
