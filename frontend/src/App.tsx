@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { Login } from "./pages/Login";
 import { Dashboard } from "./pages/Dashboard";
 import "./App.css";
-import { getLoginToken } from "./utils/getLoginCookie";
+import { getLoginToken } from "./utils/getLoginToken";
 function App() {
   // Change useState to true for testing purposes, change it back to false when done
   const [isAuthenticated, setIsAuthenticated] = useState(false);

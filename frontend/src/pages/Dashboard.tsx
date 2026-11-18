@@ -1,6 +1,6 @@
 import { AddTrip } from "../components/AddTrip";
 import { Button } from "../components/UI/Button";
-import { getLoginToken } from "../utils/getLoginCookie";
+import { getLoginToken } from "../utils/getLoginToken";
 export function Dashboard() {
   async function logOut() {
     const token = getLoginToken();
