@@ -1,14 +1,38 @@
 function LoginForm() {
+  async function login(e: React.SubmitEvent<HTMLFormElement>) {
+
+    e.preventDefault();
+    const form = e.target;
+    const formData = new FormData(form);
+    const userName = formData.get("username");
+    const password = formData.get("password");
+    console.log(userName, password);
+
+    const url = "http://localhost:3000/auth/login";
+    try {
+      const response = await fetch(url, {
+        method: "POST",
+        body: JSON.stringify({ username: userName, password: password }),
+      });
+      if (!response.ok) {
+        throw new Error(`Response Status: ${response.status}`);
+      }
+      const result = await response.json();
+      console.log(result);
+    } catch (error) {
+      console.error(error);
+    }
+  }
   return (
     <div className="grid w-fit p-4">
-      <h1>Login Form</h1>
+      <h1>Login</h1>
       <div>
-        <form>
-          <input id="username" type="text" placeholder="Username" />
+        <form onSubmit={login}>
+          <input name="username" type="text" placeholder="Username" />
           <br />
-          <input id="password" type="password" placeholder="Password" />
+          <input name="password" type="password" placeholder="Password" />
           <br />
-          <button className="bg-slate-500 text-white">Login</button>
+          <input type="submit" value="Login" className="bg-slate-500 text-white" />
         </form>
        </div>
     </div>
