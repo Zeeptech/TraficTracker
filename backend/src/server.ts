@@ -3,8 +3,17 @@ import { Hono } from "hono";
 import "dotenv/config";
 import { auth } from "./routes/auth/auth.js";
 import { stops } from "./routes/stops/stops.js";
+import { cors } from "hono/cors";
 
-const app = new Hono().route("/auth", auth).route("/stops", stops);
+const app = new Hono()
+  .use(
+    "*",
+    cors({
+      origin: "*",
+    }),
+  )
+  .route("/auth", auth)
+  .route("/stops", stops);
 
 app.get("/", (c) => {
   return c.text("Hello Hono!");
