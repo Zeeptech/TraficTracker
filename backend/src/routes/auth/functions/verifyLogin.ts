@@ -1,14 +1,14 @@
 import { verify } from "argon2";
-import { db } from "../../db.js";
+import { db } from "../../../db.js";
 
 type UserRow = { id: number; password: string };
 
-const findUserByUsername = db.prepare(
+const findUser = db.prepare(
   "SELECT id, password FROM users WHERE username = @username",
 );
 
 export async function verifyLogin(username: string, password: string) {
-  const user = findUserByUsername.get({ username }) as UserRow | undefined;
+  const user = findUser.get({ username }) as UserRow | undefined;
 
   if (!user) return null;
 

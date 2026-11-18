@@ -1,7 +1,18 @@
-import type { Context, Next } from "hono";
+import { bearerAuth } from "hono/bearer-auth";
+import { db } from "../db.js";
 
-export async function requireAuth(c: Context, next: Next) {
-  //Inloggnings check
+const findSession = db.prepare(
+  "SELECT user_id FROM sessions WHERE token_hash = @token",
+);
 
-  await next();
-}
+export const requireAuth = bearerAuth({
+  verifyToken: (token, c) => {
+    const session = findSession.get({ token }) as
+      { user_id: number } | undefined;
+    if (!session) return false;
+
+    c.set("userId", session.user_id);
+    c.set("token", token);
+    return true;
+  },
+});

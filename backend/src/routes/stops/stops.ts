@@ -1,8 +1,9 @@
 import { Hono, type Context } from "hono";
+import { requireAuth } from "../../guards/auth.js";
 
 export const stops = new Hono();
 
-stops.get("/", async (c) => {
+stops.get("/", requireAuth, async (c) => {
   const res = await fetch(
     `${process.env.TRAFIKLAB_URL}/stops/list/?key=${process.env.TRAFIKLAB_KEY}`,
     {
