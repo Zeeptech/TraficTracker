@@ -9,18 +9,15 @@
     "seed": "tsx src/db/seed.ts --reset"
   },
   "dependencies": {
-    "@trafictracker/shared": "*",
     "@hono/node-server": "^2.1.3",
     "@hono/zod-validator": "^0.9.1",
-    "@libsql/client": "^0.18.0",
+    "@trafictracker/shared": "*",
     "argon2": "^0.45.2",
-    "better-sqlite3": "^13.2.0",
     "dotenv": "^18.0.10",
     "hono": "^4.13.16",
     "zod": "^4.6.7"
   },
   "devDependencies": {
-    "@types/better-sqlite3": "^9.6.0",
     "@types/node": "^26.1.1",
     "tsx": "^4.23.15",
     "typescript": "^7.0.2"

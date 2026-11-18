@@ -1,3 +1,3 @@
-import Database from "better-sqlite3";
-export const db = new Database("dev.db");
-db.pragma("foreign_keys = ON");
+import { DatabaseSync } from "node:sqlite";
+export const db = new DatabaseSync("dev.db");
+db.exec("PRAGMA foreign_keys = ON");

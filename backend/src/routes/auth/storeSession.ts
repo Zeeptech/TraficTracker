@@ -2,12 +2,7 @@ import { verify } from "argon2";
 import { randomBytes } from "node:crypto";
 import { db } from "../../db.js";
 
-const session = db.prepare<{
-  userId: number;
-  token: string;
-  createdAt: string;
-  lastUsedAt: string;
-}>(
+const session = db.prepare(
   "INSERT INTO sessions (user_id, token_hash, created_at, last_used_at) VALUES (@userId, @token, @createdAt, @lastUsedAt)",
 );
 

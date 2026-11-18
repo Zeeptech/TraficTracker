@@ -3,12 +3,12 @@ import { db } from "../../db.js";
 
 type UserRow = { id: number; password: string };
 
-const findUserByUsername = db.prepare<{ username: string }, UserRow>(
+const findUserByUsername = db.prepare(
   "SELECT id, password FROM users WHERE username = @username",
 );
 
 export async function verifyLogin(username: string, password: string) {
-  const user = findUserByUsername.get({ username });
+  const user = findUserByUsername.get({ username }) as UserRow | undefined;
 
   if (!user) return null;
 

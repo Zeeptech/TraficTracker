@@ -1,4 +1,4 @@
-import Database from "better-sqlite3";
+import { DatabaseSync } from "node:sqlite";
 import { readFileSync, rmSync, existsSync } from "node:fs";
 
 const args = process.argv.slice(2);
@@ -9,7 +9,7 @@ if (reset || !existsSync("dev.db")) {
 
   const seedFile = new URL("./seed.sql", import.meta.url);
 
-  const db = new Database("dev.db");
+  const db = new DatabaseSync("dev.db");
   db.exec(readFileSync(seedFile, "utf8"));
   db.close();
 
