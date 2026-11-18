@@ -1,6 +1,5 @@
 function LoginForm() {
   async function login(e: React.SubmitEvent<HTMLFormElement>) {
-
     e.preventDefault();
     const form = e.target;
     const formData = new FormData(form);
@@ -25,12 +24,9 @@ function LoginForm() {
 
       const token = result.token;
       document.cookie = `token=${token}; path=/;`;
-
     } catch (error) {
       console.error(error);
     }
-
-    
   }
   return (
     <div className="grid w-fit p-4">
@@ -41,9 +37,13 @@ function LoginForm() {
           <br />
           <input name="password" type="password" placeholder="Password" />
           <br />
-          <input type="submit" value="Login" className="bg-slate-500 text-white" />
+          <input
+            type="submit"
+            value="Login"
+            className="bg-slate-500 text-white"
+          />
         </form>
-       </div>
+      </div>
     </div>
   );
 }

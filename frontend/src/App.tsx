@@ -1,9 +1,26 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Login } from "./pages/Login";
 import { Dashboard } from "./pages/Dashboard";
 import "./App.css";
-function App() { // Change useState to true for testing purposes, change it back to false when done
-  const [isAuthenticated, setIsAuthenticated] = useState(true);
+import { getLoginToken } from "./utils/getLoginCookie";
+function App() {
+  // Change useState to true for testing purposes, change it back to false when done
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  useEffect(() => {
+    const token = getLoginToken();
+    if (token) {
+      fetch("http://localhost:3000/auth", {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token.split("=")[1]}`,
+        },
+      }).then((response) => {
+        if (response.ok) {
+          setIsAuthenticated(true);
+        }
+      });
+    }
+  }, []);
 
   if (isAuthenticated) {
     return <Dashboard />;
