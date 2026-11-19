@@ -1,5 +1,6 @@
 CREATE TABLE users (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT,
     username TEXT,
     password TEXT,
     email TEXT NOT NULL UNIQUE,
@@ -14,8 +15,9 @@ CREATE TABLE sessions (
     last_used_at INTEGER NOT NULL DEFAULT (unixepoch())
 );
 
-INSERT INTO users (username, password, email, deleted_at) VALUES
+INSERT INTO users (name, username, password, email, deleted_at) VALUES
 (
+    'Dev User',
     'dev',
     '$argon2id$v=19$m=65536,t=3,p=4$TOA4f7Rf6aswcauVOthbUQ$ImkChUHGB3C1CeM16MiPhBSOWo6tMUzGSTOXj40kgk8',
     'dev@dev.com',

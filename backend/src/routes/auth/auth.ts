@@ -38,5 +38,6 @@ const findUser = db.prepare(
 
 auth.get("/", requireAuth, (c) => {
   const user = findUser.get({ id: c.get("userId") });
-  return c.json(user);
+  console.log("user", user);
+  return c.json({ user });
 });
