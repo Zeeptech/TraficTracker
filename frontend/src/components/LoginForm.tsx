@@ -1,33 +1,16 @@
+import { useAuth } from "../api/useAuth";
+
 function LoginForm() {
+  const auth = useAuth();
+
   async function login(e: React.SubmitEvent<HTMLFormElement>) {
     e.preventDefault();
     const form = e.target;
     const formData = new FormData(form);
-    const userName = formData.get("username");
-    const password = formData.get("password");
-    console.log(userName, password);
+    const userName = formData.get("username") as string;
+    const password = formData.get("password") as string;
 
-    const url = "http://localhost:3000/auth";
-    try {
-      const response = await fetch(url, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ username: userName, password: password }),
-      });
-      if (!response.ok) {
-        throw new Error(`Response Status: ${response.status}`);
-      }
-      const result = await response.json();
-      console.log(result.token);
-
-      const token = result.token;
-      document.cookie = `token=${token}; path=/;`;
-      window.location.reload();
-    } catch (error) {
-      console.error(error);
-    }
+    auth.login(userName, password);
   }
   return (
     <div className="grid w-fit p-4">
