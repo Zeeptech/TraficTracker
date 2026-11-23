@@ -1,3 +1,5 @@
+import { createMemoryCache } from "../lib/createMemoryCache.js";
+
 type Data = Record<string, string>;
 
 interface UseHttpClientProps {
@@ -5,45 +7,54 @@ interface UseHttpClientProps {
   headers?: Data | (() => Data);
   data?: Data;
   params?: string[];
-}
-
-async function request({
-  method,
-  baseUrl,
-  endpoint,
-  headers,
-  params = [],
-  data,
-}: {
-  method: "POST" | "GET" | "PUT" | "DELETE";
-  baseUrl?: string;
-  endpoint: string;
-  headers?: Record<string, string>;
-  params?: string[];
-  data?: Data;
-}) {
-  const url = `${baseUrl}/${endpoint}${params.length > 0 ? `?${params.join("&")}` : ""}`;
-
-  console.log(url);
-
-  const response = await fetch(url, {
-    method: method,
-    headers,
-    body: data ? JSON.stringify(data) : undefined,
-  });
-
-  if (!response.ok) {
-    throw new Error(`${response.status} ${response.statusText}`);
-  }
-
-  return response;
+  cacheLifetimeSeconds?: number;
 }
 
 export function useHttpClient({
   baseUrl,
   headers,
   params,
+  cacheLifetimeSeconds,
 }: UseHttpClientProps) {
+  const cache = cacheLifetimeSeconds
+    ? createMemoryCache(cacheLifetimeSeconds)
+    : null;
+
+  async function request({
+    method,
+    baseUrl,
+    endpoint,
+    headers,
+    params = [],
+    data,
+    useCache,
+  }: UseHttpClientProps & {
+    method: "POST" | "GET" | "PUT" | "DELETE";
+    endpoint: string;
+    useCache?: boolean;
+    headers?: Record<string, string>;
+  }) {
+    const url = `${baseUrl}/${endpoint}${params.length > 0 ? `?${params.join("&")}` : ""}`;
+
+    const cached = useCache ? cache?.get(url) : null;
+
+    if (cached) return cached;
+
+    const response = await fetch(url, {
+      method: method,
+      headers,
+      body: data ? JSON.stringify(data) : undefined,
+    });
+
+    if (!response.ok) {
+      throw new Error(`${response.status} ${response.statusText}`);
+    }
+
+    if (useCache) await cache?.add(url, response);
+
+    return response;
+  }
+
   const getHeaders = () =>
     typeof headers === "function" ? headers() : headers;
 
@@ -55,6 +66,7 @@ export function useHttpClient({
         endpoint,
         headers: getHeaders(),
         params: [...(params ?? []), ...extraParams],
+        useCache: true,
       }),
     post: (endpoint: string, data: Data) =>
       request({
