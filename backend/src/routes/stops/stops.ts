@@ -1,21 +1,14 @@
-import { Hono, type Context } from "hono";
+import { Hono } from "hono";
 import { requireAuth } from "../../guards/auth.js";
+
+import { findStopsByName } from "./functions/findStopsByName.js";
 
 export const stops = new Hono();
 
-stops.get("/", requireAuth, async (c) => {
-  const res = await fetch(
-    `${process.env.TRAFIKLAB_URL}/stops/list/?key=${process.env.TRAFIKLAB_KEY}`,
-    {
-      method: "GET",
-    },
-  );
+stops.get("/name/:search", requireAuth, async (c) => {
+  const { search } = c.req.param();
 
-  console.log(
-    `${process.env.TRAFIKLAB_URL}/stops/list/?key=${process.env.TRAFIKLAB_KEY}`,
-  );
+  const stops = await findStopsByName(search);
 
-  const data = await res.json();
-
-  return c.json({ message: data }, 200);
+  return c.json({ data: stops });
 });
