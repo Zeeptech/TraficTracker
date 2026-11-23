@@ -4,16 +4,12 @@ import z from "zod";
 import { stopGroupSchema } from "@trafictracker/shared/StopGroup";
 import { locateStop } from "../../lib/stopLocation.js";
 import type { LocatedStop } from "@trafictracker/shared/Stop";
+import { trafiklab } from "../../clients/trafiklab.js";
 
 export const stops = new Hono();
 
 stops.get("/", requireAuth, async (c) => {
-  const res = await fetch(
-    `${process.env.TRAFIKLAB_URL}/stops/list/?key=${process.env.TRAFIKLAB_KEY}`,
-    {
-      method: "GET",
-    },
-  );
+  const res = await trafiklab.get("stops/list");
 
   const data = await res.json();
   return c.json({ message: data });
@@ -31,12 +27,7 @@ const nameSearchSchema = z.object({
 stops.get("/name/:search", requireAuth, async (c) => {
   const { search } = c.req.param();
 
-  const res = await fetch(
-    `${process.env.TRAFIKLAB_URL}/stops/name/${encodeURIComponent(search)}?key=${process.env.TRAFIKLAB_KEY}`,
-    {
-      method: "GET",
-    },
-  );
+  const res = await trafiklab.get(`stops/name/${encodeURIComponent(search)}`);
 
   const { stop_groups } = nameSearchSchema.parse(await res.json());
 

@@ -29,7 +29,10 @@ export function useAuth() {
     const response = await api.post("auth", { username, password });
     const result = await response.json();
 
+    console.log(result.token);
+
     setLoginToken(result.token);
+
     await refresh();
   }
 
