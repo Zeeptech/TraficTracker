@@ -22,14 +22,15 @@ async function request({
   params?: string[];
   data?: Data;
 }) {
-  const response = await fetch(
-    `${baseUrl}/${endpoint}${params.length > 0 ? `?${params.join("&")}` : ""}`,
-    {
-      method: method,
-      headers,
-      body: data ? JSON.stringify(data) : undefined,
-    },
-  );
+  const url = `${baseUrl}/${endpoint}${params.length > 0 ? `?${params.join("&")}` : ""}`;
+
+  console.log(url);
+
+  const response = await fetch(url, {
+    method: method,
+    headers,
+    body: data ? JSON.stringify(data) : undefined,
+  });
 
   if (!response.ok) {
     throw new Error(`${response.status} ${response.statusText}`);
@@ -47,13 +48,39 @@ export function useHttpClient({
     typeof headers === "function" ? headers() : headers;
 
   return {
-    get: (endpoint: string) =>
-      request({ method: "GET", baseUrl, endpoint, headers: getHeaders(), params }),
+    get: (endpoint: string, extraParams: string[] = []) =>
+      request({
+        method: "GET",
+        baseUrl,
+        endpoint,
+        headers: getHeaders(),
+        params: [...(params ?? []), ...extraParams],
+      }),
     post: (endpoint: string, data: Data) =>
-      request({ method: "POST", baseUrl, endpoint, headers: getHeaders(), params, data }),
+      request({
+        method: "POST",
+        baseUrl,
+        endpoint,
+        headers: getHeaders(),
+        params,
+        data,
+      }),
     put: (endpoint: string, data: Data) =>
-      request({ method: "PUT", baseUrl, endpoint, headers: getHeaders(), params, data }),
+      request({
+        method: "PUT",
+        baseUrl,
+        endpoint,
+        headers: getHeaders(),
+        params,
+        data,
+      }),
     delete: (endpoint: string) =>
-      request({ method: "DELETE", baseUrl, endpoint, params, headers: getHeaders() }),
+      request({
+        method: "DELETE",
+        baseUrl,
+        endpoint,
+        params,
+        headers: getHeaders(),
+      }),
   };
 }
