@@ -14,24 +14,23 @@ function LoginForm() {
   return (
     <View className="w-fit p-4">
       <Text>Login</Text>
-      <View>
-        <TextInput
-          value={username}
-          onChangeText={setUsername}
-          placeholder="Username"
-          autoCapitalize="none"
-        />
-        <TextInput
-          value={password}
-          onChangeText={setPassword}
-          placeholder="Password"
-          secureTextEntry
-          onSubmitEditing={login}
-        />
-        <Button onClick={login}>
-          <Text className="text-white">Login</Text>
-        </Button>
-      </View>
+
+      <TextInput
+        value={username}
+        onChangeText={setUsername}
+        placeholder="Username"
+        autoCapitalize="none"
+      />
+      <TextInput
+        value={password}
+        onChangeText={setPassword}
+        placeholder="Password"
+        secureTextEntry
+        onSubmitEditing={login}
+      />
+      <Button onClick={login}>
+        <Text className="text-white">Login</Text>
+      </Button>
     </View>
   );
 }

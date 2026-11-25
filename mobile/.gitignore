@@ -40,3 +40,6 @@ yarn-error.*
 
 # Security
 .env
+
+# Local module build output
+modules/*/android/build

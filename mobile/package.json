@@ -4,15 +4,16 @@
   "version": "0.0.0",
   "main": "index.ts",
   "scripts": {
-    "dev": "expo start",
-    "start": "expo start",
-    "android": "expo run:android",
+    "dev": "node scripts/android-env.mjs expo start",
+    "start": "node scripts/android-env.mjs expo start",
+    "android": "node scripts/android-env.mjs expo run:android",
     "ios": "expo run:ios",
     "lint": "tsc --noEmit"
   },
   "dependencies": {
     "@trafictracker/shared": "*",
     "expo": "~58.0.26",
+    "expo-dev-client": "~58.0.21",
     "expo-secure-store": "~58.0.3",
     "expo-status-bar": "~58.0.5",
     "react": "19.3.0",
