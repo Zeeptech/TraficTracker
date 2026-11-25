@@ -9,7 +9,7 @@ export function Button({
 }) {
   return (
     <Pressable
-      className="bg-emerald-800 px-4 py-1 rounded-md active:bg-emerald-900"
+      className="bg-emerald-800 px-4 py-2 my-2 rounded-md active:bg-emerald-900 mx-auto"
       onPress={onClick}
     >
       <Text className="text-white">{children}</Text>
