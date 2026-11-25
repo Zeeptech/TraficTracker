@@ -33,7 +33,7 @@ auth.delete("/", requireAuth, (c) => {
 });
 
 const findUser = db.prepare(
-  "SELECT id, username, email FROM users WHERE id = @id",
+  "SELECT id, name, username, email FROM users WHERE id = @id",
 );
 
 auth.get("/", requireAuth, (c) => {

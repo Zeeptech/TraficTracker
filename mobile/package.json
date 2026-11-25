@@ -1,0 +1,29 @@
+{
+  "name": "@trafictracker/mobile",
+  "private": true,
+  "version": "0.0.0",
+  "main": "index.ts",
+  "scripts": {
+    "dev": "node scripts/android-env.mjs expo start",
+    "start": "node scripts/android-env.mjs expo start",
+    "android": "node scripts/android-env.mjs expo run:android",
+    "ios": "expo run:ios",
+    "lint": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@trafictracker/shared": "*",
+    "expo": "~58.0.26",
+    "expo-dev-client": "~58.0.21",
+    "expo-secure-store": "~58.0.3",
+    "expo-status-bar": "~58.0.5",
+    "react": "19.3.0",
+    "react-native": "0.88.1",
+    "react-native-safe-area-context": "~5.11.1",
+    "tailwindcss": "^4.3.5",
+    "uniwind": "^1.14.0"
+  },
+  "devDependencies": {
+    "@types/react": "~19.3.0",
+    "typescript": "~6.0.3"
+  }
+}
