@@ -8,6 +8,8 @@ const findUser = db.prepare(
 );
 
 export async function verifyLogin(username: string, password: string) {
+  console.log("attempted login");
+
   const user = findUser.get({ username }) as UserRow | undefined;
 
   if (!user) return null;
